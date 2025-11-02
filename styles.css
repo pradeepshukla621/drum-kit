@@ -100,12 +100,12 @@ footer {
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Hide by default */
+/* show by default */
 #fullscreenBtn {
   display: inline-block;
 }
 
-/* Show only on mobile/tablet screens */
+/* hide only on mobile/tablet screens */
 @media (max-width: 1024px) {
   #fullscreenBtn {
     display: none;
