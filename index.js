@@ -107,7 +107,7 @@ fullscreenBtn.addEventListener('click', async () => {
       fullscreenBtn.textContent = 'Exit Fullscreen';
     } else {
       await document.exitFullscreen();
-      fullscreenBtn.textContent = 'Fullscreen';
+      fullscreenBtn.textContent = 'Enter Fullscreen';
     }
   } catch (err) {
     console.error('Fullscreen error:', err);
