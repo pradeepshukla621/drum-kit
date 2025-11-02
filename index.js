@@ -18,15 +18,15 @@ for (var i = 0; i < numberOfDrumButtons; i++) {
 
 // detecting keybord press
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
     makeSound(event.key);
     buttonAnimation(event.key);
-   
+
 });
 
 
 
-function makeSound(key){
+function makeSound(key) {
 
     switch (key) {
 
@@ -80,8 +80,53 @@ function buttonAnimation(currentKey) {
     activeButton.classList.add("pressed");
 
 
-    setTimeout(function() {
+    setTimeout(function () {
         activeButton.classList.remove("pressed");
 
     }, 100);
 }
+
+
+// --------- My additional features ---------
+
+// ✅ Prevent double-tap zoom (extra safety for iOS)
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (event) {
+    const now = new Date().getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
+
+// Optional: prevent pinch zoom
+document.addEventListener('gesturestart', e => e.preventDefault());
+
+// ✅ Fullscreen toggle
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+fullscreenBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+            alert(`Error attempting fullscreen: ${err.message}`);
+        });
+        fullscreenBtn.textContent = "Exit Fullscreen";
+    } else {
+        document.exitFullscreen();
+        fullscreenBtn.textContent = "Enter Fullscreen";
+    }
+});
+
+// ✅ Landscape orientation lock (only works in fullscreen on mobile)
+const landscapeBtn = document.getElementById('landscapeBtn');
+landscapeBtn.addEventListener('click', async () => {
+    try {
+        if (screen.orientation && screen.orientation.lock) {
+            await screen.orientation.lock("landscape");
+            alert("Switched to landscape!");
+        } else {
+            alert("Orientation lock not supported on this device.");
+        }
+    } catch (err) {
+        alert("Landscape lock failed: " + err.message);
+    }
+});
