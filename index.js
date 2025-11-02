@@ -89,44 +89,27 @@ function buttonAnimation(currentKey) {
 
 // --------- My additional features ---------
 
-// ✅ Prevent double-tap zoom (extra safety for iOS)
+// --- Prevent double-tap zoom ---
 let lastTouchEnd = 0;
-document.addEventListener('touchend', function (event) {
-    const now = new Date().getTime();
-    if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-    }
-    lastTouchEnd = now;
+document.addEventListener('touchend', e => {
+  const now = Date.now();
+  if (now - lastTouchEnd <= 30) e.preventDefault();
+  lastTouchEnd = now;
 }, false);
-
-// Optional: prevent pinch zoom
 document.addEventListener('gesturestart', e => e.preventDefault());
 
-// ✅ Fullscreen toggle
+// ---Fullscreen toggle ---
 const fullscreenBtn = document.getElementById('fullscreenBtn');
-fullscreenBtn.addEventListener('click', () => {
+fullscreenBtn.addEventListener('click', async () => {
+  try {
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {
-            alert(`Error attempting fullscreen: ${err.message}`);
-        });
-        fullscreenBtn.textContent = "Exit Fullscreen";
+      await document.documentElement.requestFullscreen();
+      fullscreenBtn.textContent = 'Exit Fullscreen';
     } else {
-        document.exitFullscreen();
-        fullscreenBtn.textContent = "Enter Fullscreen";
+      await document.exitFullscreen();
+      fullscreenBtn.textContent = 'Fullscreen';
     }
-});
-
-// ✅ Landscape orientation lock (only works in fullscreen on mobile)
-const landscapeBtn = document.getElementById('landscapeBtn');
-landscapeBtn.addEventListener('click', async () => {
-    try {
-        if (screen.orientation && screen.orientation.lock) {
-            await screen.orientation.lock("landscape");
-            alert("Switched to landscape!");
-        } else {
-            alert("Orientation lock not supported on this device.");
-        }
-    } catch (err) {
-        alert("Landscape lock failed: " + err.message);
-    }
+  } catch (err) {
+    console.error('Fullscreen error:', err);
+  }
 });

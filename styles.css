@@ -1,6 +1,7 @@
 body {
   text-align: center;
   background-color: #283149;
+  touch-action: manipulation !important;
 }
 
 h1 {
@@ -97,17 +98,16 @@ footer {
 
 .outline-btn:hover {
   background: rgba(255, 255, 255, 0.25);
-  /* transform: translateY(-2px); */
 }
 
 /* Hide by default */
-#landscapeBtn {
-  display: none;
+#fullscreenBtn {
+  display: inline-block;
 }
 
 /* Show only on mobile/tablet screens */
 @media (max-width: 1024px) {
-  #landscapeBtn {
-    display: inline-block;
+  #fullscreenBtn {
+    display: none;
   }
 }
